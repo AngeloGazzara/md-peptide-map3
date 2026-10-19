@@ -1,0 +1,82 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; never touch this part
+define                   = -DPOSRES_ref
+comm-mode                = ANGULAR           ;
+nstcomm                  = 100
+cutoff-scheme            = Verlet
+ns-type                  = Grid
+pbc                      = xyz
+nstlist                  = 10
+constraints              = all-bonds
+rlist                    = 1
+coulombtype              = Cut-off
+rcoulomb                 = 1
+vdw-type                 = Cut-off
+rvdw                     = 1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,,,
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;, part to be updated by users
+
+
+integrator               = md             
+dt                       = 0.002
+nsteps                   = 500000
+
+;;;;;;;;;; minimization
+
+emtol                    = 10
+emstep                   = 0.01
+
+
+;;;;;;;;;;;; OUTPUT CONTROL OPTIONS
+nstxout                  = 100
+nstvout                  = 100
+nstlog                   = 1000
+nstcalcenergy            = 100
+nstenergy                = 1000
+energygrps               = 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;, Temperature coupling  
+tcoupl                   = v-rescale
+tc-grps                  = Water non-water
+tau-t                    = 0.1 0.1
+ref-t                    = 10 10
+
+
+; SIMULATED ANNEALING  
+; Type of annealing for each temperature group (no/single/periodic)
+annealing                = 
+; Number of time points to use for specifying annealing in each group
+annealing-npoints        = 
+; List of times at the annealing points for each group
+annealing-time           = 
+; Temp. at each annealing point, for each group.
+annealing-temp           = 
+
+; GENERATE VELOCITIES FOR STARTUP RUN
+gen-vel                  = no   ; continuation from the equilibrated state
+gen-temp                 = 10
+gen-seed                 = -1
+
+
+
+
+; COM PULLING          
+pull                     = yes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; output
+pull-nstxout             = 50
+pull-nstfout             = 50
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+pull_ncoords            = 1         ; only one reaction coordinate
+pull_ngroups            = 2         ; two groups defining one reaction coordinate
+pull_group1_name        = pull
+pull_group2_name        = ref
+pull_coord1_type        = umbrella  ; harmonic potential
+pull_coord1_geometry    = distance  ; simple distance increase
+pull_coord1_dim         = Y N N     ; pull along x
+pull_coord1_groups      = 1 2       ; groups 1 (pull) and 2 (ref) define the reaction coordinate
+pull_coord1_start       = yes       ; define initial COM distance > 0
+pull_coord1_rate        = 0.01       ; 0.01 nm per ps = 10 nm per ns
+pull_coord1_k           = 1000      ; kJ mol^-1 nm^-2

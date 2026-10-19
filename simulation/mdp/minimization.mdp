@@ -1,0 +1,64 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; never touch this part
+define                   = 
+comm-mode                = ANGULAR           ;
+nstcomm                  = 100
+cutoff-scheme            = Verlet
+ns-type                  = Grid
+pbc                      = xyz
+nstlist                  = 10
+rlist                    = 1
+coulombtype              = Cut-off
+rcoulomb                 = 1
+vdw-type                 = Cut-off
+rvdw                     = 1
+constraints              = all-bonds
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,,,
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;, part to be updated by users
+
+
+integrator               = steep    ; md          
+dt                       = 0.002
+nsteps                   = -1            
+
+;;;;;;;;;; minimization
+
+emtol                    = 10
+emstep                   = 0.01
+
+
+;;;;;;;;;;;; OUTPUT CONTROL OPTIONS
+nstxout                  = 100
+nstvout                  = 100
+nstlog                   = 1000
+nstcalcenergy            = 100
+nstenergy                = 1000
+energygrps               = 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;, Temperature coupling  
+tcoupl                   = No
+tc-grps                  = Water non-water
+tau-t                    = 0.1 0.1
+ref-t                    = 300 300
+
+
+; SIMULATED ANNEALING  
+; Type of annealing for each temperature group (no/single/periodic)
+annealing                =                 ; es. single single
+; Number of time points to use for specifying annealing in each group
+annealing-npoints        =                 ; es. 3 3
+; List of times at the annealing points for each group
+annealing-time           =                 ; es. 50 100 150 50 100 150
+; Temp. at each annealing point, for each group.
+annealing-temp           =                 ; es. 300 400 500 300 400 500
+
+; GENERATE VELOCITIES FOR STARTUP RUN
+gen-vel                  = no ; or yes
+gen-temp                 = 300
+gen-seed                 = -1
+
+
+
